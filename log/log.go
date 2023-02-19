@@ -2,6 +2,7 @@ package log
 
 import (
 	"fmt"
+	"github.com/seed95/go-kit/log/keyval"
 	kitzap "github.com/seed95/go-kit/log/zap"
 	"path/filepath"
 	"runtime"
