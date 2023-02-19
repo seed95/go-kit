@@ -8,7 +8,7 @@ type ServerError interface {
 	error
 	Status() int
 	Message() string
-	SetDesc(desc string)
+	SetDesc(desc string) ServerError
 	Description() string
 }
 
@@ -35,8 +35,9 @@ func (se *serverError) Message() string {
 	return se.message
 }
 
-func (se *serverError) SetDesc(desc string) {
+func (se *serverError) SetDesc(desc string) ServerError {
 	se.desc = desc
+	return se
 }
 
 func (se *serverError) Description() string {
