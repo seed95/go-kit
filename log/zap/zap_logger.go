@@ -1,6 +1,7 @@
 package zap
 
 import (
+	"github.com/seed95/go-kit/log/keyval"
 	zaplib "go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"unsafe"
