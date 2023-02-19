@@ -1,11 +1,13 @@
 package middleware
 
 import (
+	"context"
 	"fmt"
 	"github.com/seed95/go-kit/log"
 	"github.com/seed95/go-kit/log/keyval"
 	"net/http"
 	"runtime/debug"
+	"time"
 )
 
 // LogMiddleware Log request
@@ -27,6 +29,16 @@ func RecoverMiddleware(next http.HandlerFunc) http.HandlerFunc {
 			}
 		}()
 
+		next(w, r)
+	}
+}
+
+// TimeoutMiddleware add deadline to context in request
+func TimeoutMiddleware(timeout time.Duration, next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		ctx, cancel := context.WithTimeout(r.Context(), timeout)
+		defer cancel()
+		r = r.WithContext(ctx)
 		next(w, r)
 	}
 }
