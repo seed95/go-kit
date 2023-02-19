@@ -8,8 +8,8 @@ type ServerError interface {
 	error
 	Status() int
 	Message() string
+	SetDesc(desc string)
 	Description() string
-	//GrpcStatusCode() codes.Code
 }
 
 type serverError struct {
@@ -19,11 +19,6 @@ type serverError struct {
 }
 
 var _ ServerError = (*serverError)(nil)
-
-func (se *serverError) SetDesc(desc string) ServerError {
-	se.desc = desc
-	return se
-}
 
 func (se *serverError) Error() string {
 	if len(se.desc) != 0 {
@@ -40,14 +35,10 @@ func (se *serverError) Message() string {
 	return se.message
 }
 
+func (se *serverError) SetDesc(desc string) {
+	se.desc = desc
+}
+
 func (se *serverError) Description() string {
 	return se.desc
 }
-
-//func (se *serverError) GrpcStatusCode() codes.Code {
-//	status, ok := coma.GrpcCodes[se.code]
-//	if !ok {
-//		return codes.Unknown
-//	}
-//	return status
-//}
