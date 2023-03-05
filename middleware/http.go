@@ -28,6 +28,7 @@ func RecoverMiddleware(next http.HandlerFunc) http.HandlerFunc {
 			if r := recover(); r != nil {
 				stack := string(debug.Stack())
 				log.Error("panic", keyval.String("stacktrace", stack))
+				w.WriteHeader(http.StatusInternalServerError)
 			}
 		}()
 
