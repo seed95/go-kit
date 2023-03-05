@@ -19,9 +19,9 @@ type Locale interface {
 
 var loc Locale
 
-func init() {
+func Load(dir string) {
 	// Read locale
-	l, err := NewFromDir("locale/")
+	l, err := NewFromDir(dir)
 	if err != nil {
 		nativeLog.Printf("error (%v) on setup locale_keys service", err)
 		return

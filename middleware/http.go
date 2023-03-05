@@ -5,15 +5,16 @@ import (
 	"fmt"
 	"github.com/seed95/go-kit/log"
 	"github.com/seed95/go-kit/log/keyval"
+	"github.com/seed95/go-kit/log/zap"
 	"net/http"
 	"runtime/debug"
 	"time"
 )
 
 // LogMiddleware Log request
-func LogMiddleware(next http.HandlerFunc) http.HandlerFunc {
+func LogMiddleware(l zap.Logger, next http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		log.Info("http_request", keyval.String("req", fmt.Sprintf("%+v", r)))
+		l.Info("http_request", keyval.String("req", fmt.Sprintf("%+v", r)))
 		next(w, r)
 	}
 }
