@@ -49,7 +49,6 @@ const (
 )
 
 func init() {
-	//log = bundle{}
 	initPackageName()
 
 	// Create default std bundle
@@ -168,6 +167,30 @@ func ReqRes(startTime time.Time, err error, keyVal ...keyval.Pair) {
 }
 
 func (l *bundle) ReqRes(startTime time.Time, err error, keyVal ...keyval.Pair) {
+	if !log.enable {
+		return
+	}
+
+	message := ""
+	// Get caller function name for message
+	caller := getCaller()
+	if caller != nil {
+		message = strings.Replace(caller.File, projectPath, "", 1)
+		message = strings.Replace(message, ".go", "", 1) + getFuncName(caller.Function)
+	}
+
+	// Append duration to keyVal
+	keyVal = append(keyVal, keyval.String("duration", time.Since(startTime).String()))
+
+	if err != nil {
+		keyVal = append(keyVal, keyval.Error(err))
+		l.Error(message, keyVal...)
+	} else {
+		l.Info(message, keyVal...)
+	}
+}
+
+func ReqResWithLogger(l kitzap.Logger, startTime time.Time, err error, keyVal ...keyval.Pair) {
 	if !log.enable {
 		return
 	}
