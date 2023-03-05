@@ -3,12 +3,13 @@ package middleware
 import (
 	"context"
 	"fmt"
-	"github.com/seed95/go-kit/log"
-	"github.com/seed95/go-kit/log/keyval"
-	"github.com/seed95/go-kit/log/zap"
 	"net/http"
 	"runtime/debug"
 	"time"
+
+	"github.com/seed95/go-kit/log"
+	"github.com/seed95/go-kit/log/keyval"
+	"github.com/seed95/go-kit/log/zap"
 )
 
 // LogMiddleware Log request
